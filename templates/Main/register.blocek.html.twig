@@ -1,0 +1,55 @@
+{% extends "base.html.twig" %}
+
+{% block stylesheets %}
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-5 shadow">
+            <div class="text-center" style="margin-top: 20px">
+                <a href="{{ path('main_controller') }}">
+                    <img src="{{ asset('images/blocek_icon.png') }}" alt="" width="72" height="57">
+                </a>
+            </div>
+
+            <div class="modal-header p-5 pb-4 border-bottom-0" style="margin-top: 0">
+                <h2 class="fw-bold mb-0">Registrace</h2>
+                <a style="text-decoration: none" href="{{ path('app_login') }}"><div class="mb-1 text-muted">Již mám účet</div></a>
+            </div>
+
+            <div class="modal-body p-5 pt-0">
+                {{ form_start(registrationForm) }}
+                    <div class="form-floating mb-3">
+                        {{ form_widget(registrationForm.name, {'attr': { 'placeholder': 'Pavel', 'autocomplete': 'off' }}) }}
+                        <label for="registration_form_name">Jméno</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        {{ form_widget(registrationForm.surname, {'attr': { 'placeholder': 'Bramborák', 'autocomplete': 'off' }}) }}
+                        <label for="registration_form_surname">Příjmení</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        {{ form_widget(registrationForm.email, {'attr': { 'placeholder': 'pavel.bramborak@gmail.com', 'autocomplete': 'off' }}) }}
+                        <label for="registration_form_email">Emailová adresa</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        {{ form_widget(registrationForm.gender, {'attr': { 'class': 'form-select'}}) }}
+                        <label for="gender">Pohlaví</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        {{ form_widget(registrationForm.plainPassword, {'attr': { 'placeholder': 'Heslo', 'autocomplete': 'off' }}) }}
+                        <label for="registration_form_gender">Heslo</label>
+                    </div>
+                    <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" type="submit">Registrovat se</button>
+                    <small class="text-muted">Stiskem tlačítka "Registrovat se" automaticky souhlasíte se zpracováním osobních dat.</small>
+                    <hr class="my-4">
+                    <h2 class="fs-5 fw-bold mb-3">Požadavky na registraci</h2>
+                {{ form_end(registrationForm) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,14 +1,24 @@
 <div class="container">
     <header class="blog-header py-3">
         <div class="row flex-nowrap justify-content-between align-items-center">
-            <div class="col-4 pt-1">
-                <a class="link-secondary" href="#">Zaregistruj se zde</a>
+            <div class="col-4 d-flex align-items-center">
+                {% if not app.user %}
+                    <a class="btn btn-sm btn-outline-secondary" href="{{ path('app_register') }}">Zaregistruj se</a>
+                {% endif %}
             </div>
             <div class="col-4 text-center">
-                <a class="blog-header-logo text-dark" href="#">Bloček</a>
+                <a class="blog-header-logo text-dark" href="#">Bloček TUL</a>
             </div>
             <div class="col-4 d-flex justify-content-end align-items-center">
-                <a class="btn btn-sm btn-outline-secondary" href="#">Přihlásit se</a>
+                {% if not app.user %}
+                    <a class="btn btn-sm btn-outline-secondary" href="{{ path('app_login') }}">Přihlásit se</a>
+                {% else %}
+                    <a href="{{ path('app_profile') }}" class="top-title-profile">{{ app.user.username }}</a>
+                    <a href="{{ path('app_profile') }}">
+
+                        <img src="{{ asset('images/user.png') }}" alt="" width="45" height="45">
+                    </a>
+                {% endif %}
             </div>
         </div>
     </header>

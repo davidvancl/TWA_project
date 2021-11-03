@@ -4,11 +4,11 @@
             <strong class="d-inline-block mb-2 text-primary">{{ vars.date }}</strong>
             <h3 class="mb-0">{{ vars.title }}</h3>
             <div class="mb-1 text-muted">{{ vars.author }}</div>
-            <p class="card-text mb-auto">{{ vars.body }}</p>
+            <p style="text-align: justify" class="card-text mb-auto">{{ vars.body }}</p>
             <a href="{{ vars.href }}" class="stretched-link">{{ vars.hrefText }}</a>
         </div>
         <div class="col-auto d-none d-lg-block">
-            <img class="bd-placeholder-img" src="{{ asset(vars.img) }}" width="200" height="250" xmlns="http://www.w3.org/2000/svg" >
+            <img class="bd-placeholder-img" src="{{ asset(vars.img) }}" width="200" height="250">
         </div>
     </div>
 </div>
