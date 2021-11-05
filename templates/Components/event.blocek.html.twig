@@ -1,14 +1,18 @@
 <div class="col-md-6">
     <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
         <div class="col p-4 d-flex flex-column position-static">
-            <strong class="d-inline-block mb-2 text-primary">{{ vars.date }}</strong>
-            <h3 class="mb-0">{{ vars.title }}</h3>
-            <div class="mb-1 text-muted">{{ vars.author }}</div>
-            <p style="text-align: justify" class="card-text mb-auto">{{ vars.body }}</p>
-            <a href="{{ vars.href }}" class="stretched-link">{{ vars.hrefText }}</a>
+            <strong class="d-inline-block mb-2 text-primary">{{ article.date_created }}</strong>
+            <h3 class="mb-0">{{ article.title }}</h3>
+            <div class="mb-1 text-muted">{{ article.name ~ ' ' ~  article.surname}}</div>
+            <p style="text-align: justify" class="card-text mb-auto">{{ article.body }}</p>
+            <a href="{{ article.href }}" class="stretched-link">{{ article.href_text }}</a>
         </div>
         <div class="col-auto d-none d-lg-block">
-            <img class="bd-placeholder-img" src="{{ asset(vars.img) }}" width="200" height="250">
+            {% if article.image_path is not empty %}
+                <img class="bd-placeholder-img" src="{{ asset('images/' ~ article.image_path) }}" width="200" height="250">
+            {% else %}
+                <img class="bd-placeholder-img" src="{{ asset('images/blog-intro.jpg') }}" width="200" height="250">
+            {% endif %}
         </div>
     </div>
 </div>

@@ -32,11 +32,12 @@ class RegistrationController extends AbstractController
             );
 
             $user->setRoles( array('ROLE_USER') );
+            $user->setProfilePicture($form->get('gender') == 'woman' ? 'default_woman.jpg' : 'default_man.jpg');
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('main_controller');
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('Main/register.blocek.html.twig', [

@@ -42,6 +42,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $surname;
 
     /**
+     * @ORM\Column(type="string", length=200, unique=false)
+     */
+    private $profilePicture;
+
+    /**
      * @ORM\Column(type="json")
      */
     private $roles = [];
@@ -75,6 +80,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getGender(): ?string
     {
         return $this->gender;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProfilePicture()
+    {
+        return $this->profilePicture;
     }
 
     public function setEmail(string $email): self
@@ -159,6 +172,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setGender($gender): void
     {
         $this->gender = $gender;
+    }
+
+    /**
+     * @param mixed $profilePicture
+     */
+    public function setProfilePicture($profilePicture): void
+    {
+        $this->profilePicture = $profilePicture;
     }
 
     /**

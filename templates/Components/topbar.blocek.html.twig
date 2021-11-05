@@ -13,10 +13,9 @@
                 {% if not app.user %}
                     <a class="btn btn-sm btn-outline-secondary" href="{{ path('app_login') }}">Přihlásit se</a>
                 {% else %}
-                    <a href="{{ path('app_profile') }}" class="top-title-profile">{{ app.user.username }}</a>
+                    <a href="{{ path('app_profile') }}" class="top-title-profile">{{ app.user.name ~ ' ' ~ app.user.surname }}</a>
                     <a href="{{ path('app_profile') }}">
-
-                        <img src="{{ asset('images/user.png') }}" alt="" width="45" height="45">
+                        <img class="profile-pic" src="{{ asset('images/' ~ app.user.profilePicture) }}" alt="" width="40" height="40">
                     </a>
                 {% endif %}
             </div>
@@ -29,7 +28,7 @@
             <a class="p-2 link-secondary" href="#">Čtení</a>
             <a class="p-2 link-secondary" href="#">Úprava</a>
             <a class="p-2 link-secondary" href="#">Smazání</a>
-            <a class="p-2 link-secondary" href="#">Změna pořadí</a>
+            <a class="p-2 link-secondary" href="#">Řazení událostí</a>
             <a class="p-2 link-secondary" href="#">Detail události</a>
             <a class="p-2 link-secondary" href="#">Barvy</a>
             <a class="p-2 link-secondary" href="#">Upozornění</a>

@@ -1,0 +1,38 @@
+<div class="col">
+    <div class="card shadow-sm
+            {% if event.status == "completed" %}
+                shadow border border-success border-3
+            {% elseif event.actual_datetime >= event.date_to %}
+                shadow border border-danger border-3
+            {% endif %}">
+        {% if event.visibility == "private" %}
+            <img style="position: absolute; top: 10px; left: 10px" src="{{ asset('images/lock.png') }}" height="10" width="10">
+        {% endif %}
+        {% if event.section == "main_page" %}
+            <img style="position: absolute; top: 30px; left: 10px" src="{{ asset('images/page.png') }}" height="10" width="10">
+        {% endif %}
+        <svg class="bd-placeholder-img card-img-top" width="100%" height="125" preserveAspectRatio="xMidYMid slice"
+             focusable="false">
+            <title>{{ event.title }}</title>
+            <rect width="100%" height="100%" fill="#55595c"></rect>
+            <text x="50%" y="50%" fill="#eceeef" dy=".3em">{{ event.title }}</text>
+            <text x="50%" y="80%" fill="#eceeef" dy=".3em" style="font-size: 0.825rem;">
+                Vytovřeno: {{ event.date_created }}</text>
+        </svg>
+        <div class="card-body">
+            <p class="card-text">{{ event.body }}</p>
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                    <button onclick="completeEvent('{{ path('finish_event', { id: event.id }) }}')" type="button"
+                            class="btn btn-sm btn-outline-secondary btn-outline-success" {% if event.status == "completed" %}disabled{% endif %}>Dokončit
+                    </button>
+                    <button onclick="editEvent('{{ path('edit_event', { id: event.id }) }}')" type="button" class="btn btn-sm btn-outline-secondary">Upravit</button>
+                    <button onclick="askToDelete('{{ path('delete_event', { id: event.id }) }}')" type="button"
+                            class="btn btn-sm btn-outline-secondary btn-outline-danger">Smazat
+                    </button>
+                </div>
+                <small class="text-muted">{{ event.date_to }}</small>
+            </div>
+        </div>
+    </div>
+</div>

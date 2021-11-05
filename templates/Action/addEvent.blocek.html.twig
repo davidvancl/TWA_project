@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <main>
+            <div class="text-center" style="margin-top: 100px">
+                <img class="d-block mx-auto mb-4" src="{{ asset('images/blocek_icon.png') }}" alt="" width="72"
+                     height="57">
+                <h2>{% if edit %}Úprava události{% else %}Přidání události{% endif %}</h2>
+                <p><a href="{{ path('app_profile') }}">Rozmyslel jsem si to</a><p>
+            </div>
+
+            <div class="row">
+                <h4 class="mb-3">Detail události</h4>
+                {{ form_start(addForm) }}
+                <form class="needs-validation" novalidate="">
+                    <div class="row g-3">
+                        <div class="col-sm-12">
+                            <label for="eventTitle" class="form-label">Název události</label>
+                            {{ form_widget(addForm.title) }}
+                        </div>
+                        <div class='col-md-12'>
+                            <div class="form-group">
+                                <label class="control-label">Do kdy má být úkol splněn</label>
+                                <div class='input-group date' id='dateTimePicker1'>
+                                    {{ form_widget(addForm.dateTo) }}
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='col-md-12' {% if 'ROLE_ADMIN' not in app.user.roles %}hidden{% endif %}>
+                            <div class="form-group">
+                                <label for="body">Sekce:</label>
+                                {{ form_widget(addForm.section) }}
+                            </div>
+                        </div>
+                        <div class='col-md-12' {% if 'ROLE_ADMIN' not in app.user.roles %}hidden{% endif %}>
+                            <div class="form-group">
+                                <label for="body">Odkaz (text, pro hlavní článek):</label>
+                                {{ form_widget(addForm.hrefText) }}
+                            </div>
+                        </div>
+                        <div class='col-md-12' {% if 'ROLE_ADMIN' not in app.user.roles %}hidden{% endif %}>
+                            <div class="form-group">
+                                <label for="body">Odkaz (url, pro hlavní článek):</label>
+                                {{ form_widget(addForm.href) }}
+                            </div>
+                        </div>
+                        <div class='col-md-12' {% if 'ROLE_ADMIN' not in app.user.roles %}hidden{% endif %}>
+                            <div class="form-group">
+                                <label for="body">Dostupné obrázky (pro hlavní článek):</label>
+                                {{ form_widget(addForm.imagePath) }}
+                            </div>
+                        </div>
+                        <div class='col-md-12'>
+                            <div class="form-group">
+                                <label for="body">Viditelnost:</label>
+                                {{ form_widget(addForm.visibility) }}
+                            </div>
+                        </div>
+                        <div class='col-md-12'>
+                            <div class="form-group">
+                                <label for="body">Text:</label>
+                                {{ form_widget(addForm.body, {'attr': {'rows': '5'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <button class="w-100 btn btn-primary btn-lg" type="submit">{% if edit %}Upravit událost{% else %}Přidat událost{% endif %}</button>
+                {{ form_end(addForm) }}
+            </div>
+        </main>
+
+        <footer class="my-5 pt-5 text-muted text-center text-small">
+            <p class="mb-1">© 2021–2021 Bloček</p>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="#">Privacy</a></li>
+                <li class="list-inline-item"><a href="#">Terms</a></li>
+                <li class="list-inline-item"><a href="#">Support</a></li>
+            </ul>
+        </footer>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="application/javascript">
+        $(function () {
+            $('#dateTimePicker1').datetimepicker({
+                format: 'DD-MM-YYYY HH:mm:ss',
+                tooltips: {
+                    pickSecond: 'Pick Second'
+                }
+            });
+        });
+    </script>
+{% endblock %}

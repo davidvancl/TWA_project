@@ -11,12 +11,9 @@
         {% include 'Components/description.blocek.html.twig' with vars %}
 
         <div class="row mb-2">
-            {% set vars = {'date': '01.11.2021', 'title': 'Založení Bločku', 'author': 'David Vancl', 'body': 'Tento článek je ukázkou prvního článku přidaného na hlavní stránku bločku.', 'hrefText': 'Jak vytvořit článek', 'href': '#', 'img': 'images/blog-intro.jpg' } %}
-            {% include 'Components/event.blocek.html.twig' with vars %}
-            {% set vars = {'date': '01.11.2021', 'title': 'Registrace a přihlášení', 'author': 'David Vancl', 'body': 'V tento okamžik se začalo pracovat na tvorbě registrace a přihlášení do bločku.', 'hrefText': 'Registrovat se', 'href': '#', 'img': 'images/update.jpg' } %}
-            {% include 'Components/event.blocek.html.twig' with vars %}
-            {% set vars = {'date': '03.11.2021', 'title': 'Dokončení Registrace a přihlášení', 'author': 'David Vancl', 'body': 'Po namáhavé práci je nyní možno vytvořit účet na bločku registrací skrze registrační formulář. Nasledným přihlášením dochází k přesměrování na profil.', 'hrefText': 'Profil', 'href': '#', 'img': 'images/end.jpg' } %}
-            {% include 'Components/event.blocek.html.twig' with vars %}
+            {% for article in articles %}
+                {% include 'Components/event.blocek.html.twig' with article %}
+            {% endfor %}
         </div>
 
         <div class="row">
@@ -35,11 +32,12 @@
                     <p style="text-align: justify;">In enim a arcu imperdiet malesuada. Etiam dui sem, fermentum vitae, sagittis id, malesuada in, quam. Duis condimentum augue id magna semper rutrum. Cras elementum. Sed ac dolor sit amet purus malesuada congue. In dapibus augue non sapien. Quisque tincidunt scelerisque libero. Pellentesque arcu. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Phasellus et lorem id felis nonummy placerat. In sem justo, commodo ut, suscipit at, pharetra vitae, orci. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam quis nulla. Pellentesque ipsum. Curabitur vitae diam non enim vestibulum interdum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Integer pellentesque quam vel velit. Phasellus et lorem id felis nonummy placerat. Proin mattis lacinia justo. </p>
                 </article>
 
-                <nav class="blog-pagination" aria-label="Pagination">
-                    <a class="btn btn-outline-primary" href="#">Registrovat se</a>
-                    <a class="btn btn-outline-secondary disabled">Přihlásit se</a>
-                </nav>
-
+                {% if not app.user %}
+                    <nav class="blog-pagination" aria-label="Pagination">
+                        <a class="btn btn-outline-primary" href="#">Registrovat se</a>
+                        <a class="btn btn-outline-secondary disabled">Přihlásit se</a>
+                    </nav>
+                {% endif %}
             </div>
 
             <div class="col-md-4">
