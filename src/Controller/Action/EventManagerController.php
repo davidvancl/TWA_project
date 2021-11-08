@@ -23,7 +23,10 @@ class EventManagerController extends AbstractController
      */
     public function add(Request $request): Response
     {
-        if (!$this->getUser()) return $this->redirectToRoute('app_login');
+        if (!$this->getUser()) {
+            $this->addFlash('error', 'Nelze přistupovat k manageru eventů bez přihlášení.');
+            return $this->redirectToRoute('app_login');
+        }
 
         $event = new Event();
         $form = $this->createForm(AddEventFormType::class, $event, ['images' => $this->loadImages()]);
@@ -45,7 +48,7 @@ class EventManagerController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($event);
             $entityManager->flush();
-
+            $this->addFlash('success', 'Váše událost byla úspěšně vytvořena.');
             return $this->redirectToRoute('app_profile');
         }
 
@@ -64,14 +67,18 @@ class EventManagerController extends AbstractController
      */
     public function edit(Request $request, int $id) : Response
     {
-        if (!$this->getUser()) return $this->redirectToRoute('app_login');
+        if (!$this->getUser()) {
+            $this->addFlash('error', 'Nejste přihlášen.');
+            return $this->redirectToRoute('app_login');
+        }
 
         $event = $this
             ->getDoctrine()
             ->getRepository(Event::class)
             ->find($id);
 
-        if (!$event) {
+        if (!$event || $this->getUser()->getId() != $event->getCreatorId()) {
+            $this->addFlash('error', 'Nenalezena událost, nebo nepatří Vám.');
             return $this->redirectToRoute('app_profile');
         }
 
@@ -85,15 +92,13 @@ class EventManagerController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-
             $event->setDateUpdated($now = (new \DateTime()));
             $event->setDateCreated(\DateTime::createFromFormat('d-m-Y H:i:s', $event->getDateCreated()));
             $event->setDateTo(\DateTime::createFromFormat('d-m-Y H:i:s', $data->getDateTo()));
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($event);
             $entityManager->flush();
-
+            $this->addFlash('success', 'Váše událost byla úspěšně upravena.');
             return $this->redirectToRoute('app_profile');
         }
 
@@ -124,7 +129,7 @@ class EventManagerController extends AbstractController
             ->setParameter("user_id", $this->getUser()->getId(), ParameterType::INTEGER)
             ->setParameter("event_id", $id, ParameterType::INTEGER)
             ->execute();
-
+        $this->addFlash('success', 'Úspěšně jste dokončil událost.');
         return $this->redirectToRoute('app_profile');
     }
 
@@ -147,6 +152,7 @@ class EventManagerController extends AbstractController
             ->setParameter("event_id", $id, ParameterType::INTEGER)
             ->execute();
 
+        $this->addFlash('success', 'Vaše událost byla úspěšně smazána.');
         return $this->redirectToRoute('app_profile');
     }
 

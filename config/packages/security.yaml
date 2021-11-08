@@ -4,7 +4,6 @@ security:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
         App\Entity\User:
             algorithm: auto
-
     providers:
         app_user_provider:
             entity:
@@ -14,6 +13,11 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        rest_api:
+            pattern: ^/api
+            stateless: true
+            custom_authenticators:
+                - App\Security\ApiKeyAuthenticator
         main:
             lazy: true
             provider: app_user_provider
@@ -21,8 +25,8 @@ security:
             logout:
                 target: /
                 path: app_logout
-
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN }
          - { path: ^/library, roles: ROLE_USER }
          - { path: ^/create, roles: ROLE_USER }
+         - { path: ^/api, role: IS_AUTHENTICATED_FULLY }

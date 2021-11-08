@@ -14,7 +14,10 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        if ($this->getUser()) return $this->redirectToRoute('app_profile');
+        if ($this->getUser()) {
+            $this->addFlash('error', 'Nelze přistoupit na přihlašovací stránku. Nejdříve se odhlaste.');
+            return $this->redirectToRoute('app_profile');
+        }
 
         return $this->render('Main/login.blocek.html.twig', [
             'last_username' => $authenticationUtils->getLastUsername(),
