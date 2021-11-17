@@ -1,0 +1,8 @@
+#filter_panel {
+    height: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 5;
+    transition: 1s width;
+}
