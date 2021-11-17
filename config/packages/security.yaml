@@ -27,6 +27,4 @@ security:
                 path: app_logout
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN }
-         - { path: ^/library, roles: ROLE_USER }
-         - { path: ^/create, roles: ROLE_USER }
          - { path: ^/api, role: IS_AUTHENTICATED_FULLY }

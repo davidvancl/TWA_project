@@ -1,0 +1,105 @@
+<div id="side_panel" class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
+     style="width: 40px;">
+    <img src="{{ asset('images/open.png') }}" id="side_open" class="js_icons" height="20" width="20" alt="open_sidebar"
+         onclick="leftSidePanelSwitch()">
+    <img src="{{ asset('images/close.png') }}" style="display: none" id="side_close" height="20" class="js_icons"
+         width="20" alt="close_sidebar" onclick="leftSidePanelSwitch()">
+    <div id="side_content" style="display: none;">
+        <p class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <svg class="bi me-2" width="40" height="32">
+                <use xlink:href="#bootstrap"></use>
+            </svg>
+            <span class="fs-4">Panel</span>
+        </p>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="{{ path('main_controller') }}" class="nav-link active" aria-current="page">
+                    <img src="{{ asset('images/icons/home.png') }}" height="16" width="16" alt="home_icon">
+                    Hlavní stránka
+                </a>
+            </li>
+            {% if app.user %}
+                <li>
+                    <a href="{{ path('app_profile') }}" class="nav-link text-white">
+                        <img src="{{ asset('images/icons/user.png') }}" height="16" width="16" alt="user_icon">
+                        Profil
+                    </a>
+                </li>
+            {% endif %}
+            <li>
+                <a href="{{ path('app_library') }}" class="nav-link text-white">
+                    <img src="{{ asset('images/icons/home.png') }}" height="16" width="16" alt="library_icon">
+                    Knihovna
+                </a>
+            </li>
+            {% if app.user %}
+                <li>
+                    <a href="{{ path('create_event') }}" class="nav-link text-white">
+                        <img src="{{ asset('images/icons/writing.png') }}" height="16" width="16" alt="create_icon">
+                        Vytvořit událost
+                    </a>
+                </li>
+            {% endif %}
+            <li>
+                <a href="#" class="nav-link text-white">
+                    <img src="{{ asset('images/icons/loupe.png') }}" height="16" width="16" alt="search_icon">
+                    Vyhledat událost
+                </a>
+            </li>
+            {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+                <li>
+                    <a href="{{ path('app_admin') }}" class="nav-link text-white">
+                        <img src="{{ asset('images/icons/admin.png') }}" height="16" width="16" alt="admin_icon">
+                        Admin page
+                    </a>
+                </li>
+            {% endif %}
+            <li>
+                <p class="nav-link text-white" style="cursor: pointer">
+                    <p class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                       id="helper"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <strong>Nápověda</strong>
+                    </p>
+                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="helper">
+                        <li><a class="dropdown-item" href="#">Vytvoření</a></li>
+                        <li><a class="dropdown-item" href="#">Čtení</a></li>
+                        <li><a class="dropdown-item" href="#">Úprava</a></li>
+                        <li><a class="dropdown-item" href="#">Smazání</a></li>
+                        <li><a class="dropdown-item" href="#">Řazení událostí</a></li>
+                        <li><a class="dropdown-item" href="#">Detail události</a></li>
+                        <li><a class="dropdown-item" href="#">Barvy</a></li>
+                        <li><a class="dropdown-item" href="#">Upozornění</a></li>
+                        <li><a class="dropdown-item" href="#">Časové zobrazení</a></li>
+                        <li><a class="dropdown-item" href="#">Účet</a></li>
+                        <li><a class="dropdown-item" href="#">Veřejné události</a></li>
+                    </ul>
+                </p>
+            </li>
+        </ul>
+        <hr>
+        <div class="dropdown">
+            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+               id="dropdownUser1"
+               data-bs-toggle="dropdown" aria-expanded="false">
+                {% if not app.user %}
+                    <img src="{{ asset('images/default_man.jpg') }}" alt="" class="rounded-circle me-2" width="32" height="32">
+                    <strong>Anonymní uživatel</strong>
+                {% else %}
+                    <img src="{{ asset('images/' ~ app.user.profilePicture) }}" alt="" class="rounded-circle me-2" width="32" height="32">
+                    <strong>{{ app.user.name ~ ' ' ~ app.user.surname }}</strong>
+                {% endif %}
+
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                {% if not app.user %}
+                    <li><a class="dropdown-item" href="{{ path('app_login') }}">Přihlásit se</a></li>
+                    <li><a class="dropdown-item" href="{{ path('app_register') }}">Registrovat se</a></li>
+                {% else %}
+                    <li><a class="dropdown-item" href="{{ path('app_logout') }}">Odhlásit se</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>

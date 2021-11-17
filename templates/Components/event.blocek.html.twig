@@ -9,9 +9,9 @@
         </div>
         <div class="col-auto d-none d-lg-block">
             {% if article.image_path is not empty %}
-                <img class="bd-placeholder-img" src="{{ asset('images/' ~ article.image_path) }}" width="200" height="250">
+                <img class="bd-placeholder-img" src="{{ asset('images/' ~ article.image_path) }}" width="200" height="250" alt="dynamic_image">
             {% else %}
-                <img class="bd-placeholder-img" src="{{ asset('images/blog-intro.jpg') }}" width="200" height="250">
+                <img class="bd-placeholder-img" src="{{ asset('images/blog-intro.jpg') }}" width="200" height="250" alt="static_intro">
             {% endif %}
         </div>
     </div>

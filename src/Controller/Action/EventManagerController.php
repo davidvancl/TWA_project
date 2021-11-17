@@ -23,10 +23,7 @@ class EventManagerController extends AbstractController
      */
     public function add(Request $request): Response
     {
-        if (!$this->getUser()) {
-            $this->addFlash('error', 'Nelze přistupovat k manageru eventů bez přihlášení.');
-            return $this->redirectToRoute('app_login');
-        }
+        if ($route = $this->securityCheck()) return $route;
 
         $event = new Event();
         $form = $this->createForm(AddEventFormType::class, $event, ['images' => $this->loadImages()]);
@@ -67,20 +64,10 @@ class EventManagerController extends AbstractController
      */
     public function edit(Request $request, int $id) : Response
     {
-        if (!$this->getUser()) {
-            $this->addFlash('error', 'Nejste přihlášen.');
-            return $this->redirectToRoute('app_login');
-        }
+        if ($route = $this->securityCheck()) return $route;
 
-        $event = $this
-            ->getDoctrine()
-            ->getRepository(Event::class)
-            ->find($id);
-
-        if (!$event || $this->getUser()->getId() != $event->getCreatorId()) {
-            $this->addFlash('error', 'Nenalezena událost, nebo nepatří Vám.');
-            return $this->redirectToRoute('app_profile');
-        }
+        $event = $this->fetchEventEntityById($id);
+        if ($route = $this->checkOwnerShip($event)) return $route;
 
         $event->setDateTo($event->getDateTo()->format('d-m-Y H:i:s'));
         $event->setDateUpdated($event->getDateUpdated()->format('d-m-Y H:i:s'));
@@ -89,10 +76,9 @@ class EventManagerController extends AbstractController
         $form = $this->createForm(AddEventFormType::class, $event, ['images' => $this->loadImages()]);
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $event->setDateUpdated($now = (new \DateTime()));
+            $event->setDateUpdated(new \DateTime());
             $event->setDateCreated(\DateTime::createFromFormat('d-m-Y H:i:s', $event->getDateCreated()));
             $event->setDateTo(\DateTime::createFromFormat('d-m-Y H:i:s', $data->getDateTo()));
             $entityManager = $this->getDoctrine()->getManager();
@@ -112,23 +98,21 @@ class EventManagerController extends AbstractController
     /**
      * @Route("/event/finish/{id}", name="finish_event")
      * @param int $id
-     * @param Connection $conn
      * @return RedirectResponse
      * @throws \Doctrine\DBAL\Exception
      */
-    public function finish(int $id, Connection $conn): RedirectResponse
+    public function finish(int $id): RedirectResponse
     {
-        if (!$this->getUser()) return $this->redirectToRoute('app_login');
+        if ($route = $this->securityCheck()) return $route;
 
-        $queryBuilder = $conn->createQueryBuilder();
-        $queryBuilder
-            ->update('event')
-            ->set('status','"completed"')
-            ->where('id = :event_id')
-            ->andWhere('creator_id = :user_id')
-            ->setParameter("user_id", $this->getUser()->getId(), ParameterType::INTEGER)
-            ->setParameter("event_id", $id, ParameterType::INTEGER)
-            ->execute();
+        $event = $this->fetchEventEntityById($id);
+        if ($route = $this->checkOwnerShip($event)) return $route;
+
+        $event->setStatus("completed");
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($event);
+        $entityManager->flush();
+
         $this->addFlash('success', 'Úspěšně jste dokončil událost.');
         return $this->redirectToRoute('app_profile');
     }
@@ -141,7 +125,7 @@ class EventManagerController extends AbstractController
      */
     public function delete(int $id, Connection $conn) : RedirectResponse
     {
-        if (!$this->getUser()) return $this->redirectToRoute('app_login');
+        if ($route = $this->securityCheck()) return $route;
 
         $queryBuilder = $conn->createQueryBuilder();
         $queryBuilder
@@ -154,6 +138,31 @@ class EventManagerController extends AbstractController
 
         $this->addFlash('success', 'Vaše událost byla úspěšně smazána.');
         return $this->redirectToRoute('app_profile');
+    }
+
+    private function securityCheck(): ?RedirectResponse
+    {
+        if (!$this->getUser()) {
+            $this->addFlash('error', $this->getParameter('message.user_required'));
+            return $this->redirectToRoute('app_login');
+        }
+        return null;
+    }
+
+    private function fetchEventEntityById($id){
+        return $this
+            ->getDoctrine()
+            ->getRepository(Event::class)
+            ->find($id);
+    }
+
+    private function checkOwnerShip($event): ?RedirectResponse
+    {
+        if (!$event || $this->getUser()->getId() != $event->getCreatorId()) {
+            $this->addFlash('error', $this->getParameter('message.permissions_required'));
+            return $this->redirectToRoute('app_profile');
+        }
+        return null;
     }
 
     private function loadImages(){

@@ -2,13 +2,14 @@
 
 {% block stylesheets %}
     <link href="{{ asset('css/topbar.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/side_bar.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
+    {{ include('Components/sidebar.blocek.html.twig') }}
     {{ include('Components/topbar.blocek.html.twig') }}
     <main class="container">
-        {% set vars = {'title': 'Hlavní stránka bločku', 'body': 'Aplikace určená pro jednoduchou správu událostí, plánů a dalších akcí, které vyžadují přesnou časovou aktivitu.', 'href': '#'} %}
-        {% include 'Components/description.blocek.html.twig' with vars %}
+        {% include 'Components/description.blocek.html.twig' %}
 
         <div class="row mb-2">
             {% for article in articles %}

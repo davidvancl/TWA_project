@@ -31,7 +31,7 @@ class ProfileController extends AbstractController
         $filterForm->handleRequest($request);
 
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
-            $parameters = ['show_finished', 'only_after_term', 'only_before_term', 'sort'];
+            $parameters = ['show_finished', 'only_after_term', 'only_before_term', 'sort', 'sort_type', 'show_only_private', 'show_only_public'];
             $parameters = $this->loadParams($parameters, $filterForm->getData());
             $this->addFlash('success', 'Filter nastaven.');
             return $this->redirect($this->generateUrl('app_profile', $parameters));
@@ -83,10 +83,20 @@ class ProfileController extends AbstractController
             $queryBuilder->andWhere('date_to >= NOW()');
         }
 
+        if($request->query->get('show_only_private')){
+            $queryBuilder->andWhere('visibility = "private"');
+        }
+
+        if($request->query->get('show_only_public')){
+            $queryBuilder->andWhere('visibility = "public"');
+        }
+
         if($request->query->get('sort') != "none" && $request->query->get('sort') != ''){
-            $queryBuilder->orderBy($request->query->get('sort'));
-        } else {
-            $queryBuilder->orderBy('date_to');
+            if ($request->query->get('sort_type') != "none" && $request->query->get('sort_type') != ''){
+                $queryBuilder->orderBy($request->query->get('sort'), $request->query->get('sort_type'));
+            } else {
+                $queryBuilder->orderBy($request->query->get('sort'));
+            }
         }
 
         return $queryBuilder
@@ -100,7 +110,7 @@ class ProfileController extends AbstractController
         $params = array();
         foreach ($parameters as $parameter){
             if ($data[$parameter]){
-                if ($parameter == 'sort' && $data[$parameter] == 'none') {
+                if ($parameter == 'sort' && $data[$parameter] == 'none' || $parameter == 'sort_type' && $data[$parameter] == 'none') {
                     continue;
                 } else {
                     $params[$parameter] = $data[$parameter];

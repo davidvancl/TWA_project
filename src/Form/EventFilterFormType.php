@@ -33,11 +33,27 @@ class EventFilterFormType extends AbstractType
                 'required' => false,
                 'attr' => $hide
             ])
+            ->add('show_only_private', CheckboxType::class, [
+                'required' => false
+            ])
+            ->add('show_only_public', CheckboxType::class, [
+                'required' => false
+            ])
             ->add('sort', ChoiceType::class, [
                 'choices'  => [
                     "Seřadit dle:" => 'none',
                     "Datum vytvoření" => 'date_created',
                     "Termín odevzdání" => 'date_to'
+                ],
+                'attr' => [
+                    'class' => 'form-select form-select-sm'
+                ]
+            ])
+            ->add('sort_type', ChoiceType::class, [
+                'choices'  => [
+                    "Typ řazení:" => 'none',
+                    "Vzestupně" => 'ASC',
+                    "Sestupně" => 'DESC'
                 ],
                 'attr' => [
                     'class' => 'form-select form-select-sm'

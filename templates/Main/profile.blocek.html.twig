@@ -1,24 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            user-select: none;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-    </style>
+    <link href="{{ asset('css/side_bar.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
+    {{ include('Components/sidebar.blocek.html.twig') }}
+    {{ include('Components/eventFilter.blocek.html.twig') }}
     <header>
         <div class="navbar navbar-dark bg-dark shadow-sm">
             <div class="container">
@@ -27,71 +15,11 @@
                     <strong>Bloček | {{ app.user.name ~ ' ' ~ app.user.surname }}</strong>
                 </a>
                 {% if app.user %}
-                    <a href="{{ path('app_logout') }}" class="navbar-brand d-flex align-items-center">
-                        <strong>Odhlásit se</strong>
+                    <a href="#" class="navbar-brand d-flex align-items-center">
+                        <strong>TODO: change</strong>
                     </a>
                 {% endif %}
             </div>
-        </div>
-{#        FILER component #}
-        <div class="nav-scroller bg-body shadow-sm">
-            <nav class="nav nav-underline d-flex justify-content-center" aria-label="Secondary navigation">
-                <a href="#" class="d-flex align-items-center text-dark text-decoration-none" style="margin: 5px">
-                    <img src="{{ asset('images/filter.png') }}" width="15" height="15">
-                </a>
-                {{ form_start(filterForm) }}
-                <ul class="nav nav-pills">
-                    <li class="nav-item" style="margin-right: 10px">
-                        {% if app.request.get('show_finished') == 1 %}
-                            {{ form_widget(filterForm.show_finished, {'attr': {'class': 'form-check-input', 'style': 'vertical-align: middle', 'checked': 'true'}}) }}
-                        {% else %}
-                            {{ form_widget(filterForm.show_finished, {'attr': {'class': 'form-check-input', 'style': 'vertical-align: middle'}}) }}
-                        {% endif %}
-                        <label class="form-check-label" for="flexCheckDefault" style="vertical-align: middle">
-                            Zobrazit dokončené
-                        </label>
-                    </li>
-                    <li class="nav-item" style="margin-right: 10px">
-                        {% if app.request.get('only_after_term') == 1 %}
-                            {{ form_widget(filterForm.only_after_term, {'attr': {'class': 'form-check-input', 'style': 'vertical-align: middle', 'checked': 'true'}}) }}
-                        {% else %}
-                            {{ form_widget(filterForm.only_after_term, {'attr': {'class': 'form-check-input', 'style': 'vertical-align: middle'}}) }}
-                        {% endif %}
-                        <label class="form-check-label" for="flexCheckDefault" style="vertical-align: middle">
-                            Pouze po termínu
-                        </label>
-                    </li>
-                    <li class="nav-item" style="margin-right: 10px">
-                        {% if app.request.get('only_before_term') == 1 %}
-                            {{ form_widget(filterForm.only_before_term, {'attr': {'class': 'form-check-input', 'style': 'vertical-align: middle', 'checked': 'true'}}) }}
-                        {% else %}
-                            {{ form_widget(filterForm.only_before_term, {'attr': {'class': 'form-check-input', 'style': 'vertical-align: middle'}}) }}
-                        {% endif %}
-                        <label class="form-check-label" for="flexCheckDefault" style="vertical-align: middle">
-                            Pouze před termínem
-                        </label>
-                    </li>
-                    <li class="nav-item">
-                        {% if app.request.get('show_main_page') == 1 %}
-                            {{ form_widget(filterForm.show_main_page, {'attr': {'class': 'form-check-input', 'style': 'vertical-align: middle', 'checked': 'true'}}) }}
-                        {% else %}
-                            {{ form_widget(filterForm.show_main_page, {'attr': {'class': 'form-check-input', 'style': 'vertical-align: middle'}}) }}
-                        {% endif %}
-                        <label class="form-check-label" for="flexCheckDefault" style="vertical-align: middle" {% if 'ROLE_ADMIN' not in app.user.roles %}hidden{% endif %}>
-                            Zobrazit články hlavní stránky
-                        </label>
-                    </li>
-                    <li class="nav-item">
-                        <div class="form-group" style="margin-left: 10px">
-                            {{ form_widget(filterForm.sort) }}
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <button class="btn btn-primary btn-sm" type="submit" style="margin-left: 10px">Filtrovat události</button>
-                    </li>
-                </ul>
-                {{ form_end(filterForm) }}
-            </nav>
         </div>
 
     </header>
@@ -144,6 +72,19 @@
         function askToDelete(href) {
             if (confirm('Opravdu chceš smazat event?')) {
                 document.location.href = href
+            }
+        }
+        function filterPanelSwitch() {
+            if (document.getElementById('filter_panel').style.width === "280px"){
+                document.getElementById('filter_panel').style.width = "40px";
+                document.getElementById('filter_open').style.display = "none";
+                document.getElementById('filter_close').style.display = "";
+                document.getElementById('filter_content').style.display = "none";
+            } else {
+                document.getElementById('filter_panel').style.width = "280px";
+                document.getElementById('filter_open').style.display = "";
+                document.getElementById('filter_close').style.display = "none";
+                document.getElementById('filter_content').style.display = "";
             }
         }
     </script>

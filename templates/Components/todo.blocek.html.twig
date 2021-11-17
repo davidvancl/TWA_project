@@ -1,10 +1,5 @@
 <div class="col">
-    <div class="card shadow-sm
-            {% if event.status == "completed" %}
-                shadow border border-success border-3
-            {% elseif event.actual_datetime >= event.date_to %}
-                shadow border border-danger border-3
-            {% endif %}">
+    <div class="card shadow-sm">
         {% if event.visibility == "private" %}
             <img style="position: absolute; top: 10px; left: 10px" src="{{ asset('images/lock.png') }}" height="10" width="10">
         {% endif %}
@@ -14,10 +9,18 @@
         <svg class="bd-placeholder-img card-img-top" width="100%" height="125" preserveAspectRatio="xMidYMid slice"
              focusable="false">
             <title>{{ event.title }}</title>
-            <rect width="100%" height="100%" fill="#55595c"></rect>
-            <text x="50%" y="50%" fill="#eceeef" dy=".3em">{{ event.title }}</text>
+            <rect width="100%" height="100%" fill="
+            {% if event.status == "completed" %}
+                #198754
+            {% elseif event.actual_datetime >= event.date_to %}
+                #dc3545
+            {% else %}
+                #55595c
+            {% endif %}
+            "></rect>
+            <text x="50%" y="50%" fill="#eceeef" dy=".3em">{{ event.title|slice(0, 40) }}</text>
             <text x="50%" y="80%" fill="#eceeef" dy=".3em" style="font-size: 0.825rem;">
-                Vytovřeno: {{ event.date_created }}</text>
+                Vytovřeno: {{ event.date_created|date('H:i:s d.m.Y') }}</text>
         </svg>
         <div class="card-body">
             <p class="card-text">{{ event.body }}</p>
@@ -31,7 +34,7 @@
                             class="btn btn-sm btn-outline-secondary btn-outline-danger">Smazat
                     </button>
                 </div>
-                <small class="text-muted">{{ event.date_to }}</small>
+                <small class="text-muted">{{ event.date_to|date('H:i:s d.m.Y') }}</small>
             </div>
         </div>
     </div>

@@ -3,9 +3,9 @@
   <component name="NewModuleRootManager">
     <content url="file://Z:/">
       <sourceFolder url="file://Z:/src" isTestSource="false" packagePrefix="App\" />
-      <sourceFolder url="file://Z://spec" isTestSource="true" />
-      <sourceFolder url="file://Z://tests" isTestSource="true" />
       <sourceFolder url="file://Z:/tests" isTestSource="true" packagePrefix="App\Tests\" />
+      <sourceFolder url="file://Z:/tests" isTestSource="true" />
+      <sourceFolder url="file://Z:/spec" isTestSource="true" />
       <excludeFolder url="file://Z:/vendor/fakerphp/faker" />
       <excludeFolder url="file://Z:/vendor/nikic/php-parser" />
       <excludeFolder url="file://Z:/vendor/symfony/cache-contracts" />
