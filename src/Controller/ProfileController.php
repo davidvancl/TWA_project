@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Form\EventFilterFormType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,34 +13,32 @@ class ProfileController extends AbstractController
 {
     /**
      * @Route("/profile", name="app_profile")
-     * @param Request $request
-     * @param Connection $conn
      * @return Response
      * @throws \Doctrine\DBAL\Exception
      */
-    public function index(Request $request, Connection $conn): Response
+    public function index(): Response
     {
         if (!$this->getUser()) {
-            $this->addFlash('error', 'Nelze přistoupit na profilovou stránku. Přihlašte se prosím.');
+            $this->addFlash('error', $this->getParameter('message.user_required'));
             return $this->redirectToRoute('app_login');
         }
-        $filterForm = $this->createForm(EventFilterFormType::class, null, [
-            'admin' => in_array('ROLE_ADMIN', $this->getUser()->getRoles(), true)
-        ]);
-        $filterForm->handleRequest($request);
-
-        if ($filterForm->isSubmitted() && $filterForm->isValid()) {
-            $parameters = ['show_finished', 'only_after_term', 'only_before_term', 'sort', 'sort_type', 'show_only_private', 'show_only_public'];
-            $parameters = $this->loadParams($parameters, $filterForm->getData());
-            $this->addFlash('success', 'Filter nastaven.');
-            return $this->redirect($this->generateUrl('app_profile', $parameters));
-        }
-
         return $this->render('Main/profile.blocek.html.twig', [
-            'subtitle' => 'Profil',
-            'filterForm' => $filterForm->createView(),
-            'events' => $this->fetchEvents($request, $conn)
+            'subtitle' => 'Profil'
         ]);
+    }
+
+    /**
+     * @Route("/events", name="events_data")
+     * @param Request $request
+     * @param Connection $conn
+     * @return JsonResponse
+     */
+    public function events(Request $request, Connection $conn): JsonResponse
+    {
+        if (!$this->getUser()) {
+            return $this->json(['error' => $this->getParameter('message.user_required')]);
+        }
+        return $this->json($this->fetchEvents($request, $conn));
     }
 
     /**
@@ -103,23 +100,5 @@ class ProfileController extends AbstractController
             ->setParameter('user_id', $this->getUser()->getId())
             ->execute()
             ->fetchAll();
-    }
-
-    private function loadParams($parameters, $data): array
-    {
-        $params = array();
-        foreach ($parameters as $parameter){
-            if ($data[$parameter]){
-                if ($parameter == 'sort' && $data[$parameter] == 'none' || $parameter == 'sort_type' && $data[$parameter] == 'none') {
-                    continue;
-                } else {
-                    $params[$parameter] = $data[$parameter];
-                }
-            }
-        }
-        if (in_array('ROLE_ADMIN', $this->getUser()->getRoles(), true) && $data['show_main_page']) {
-            $params['show_main_page'] = $data['show_main_page'];
-        }
-        return $params;
     }
 }

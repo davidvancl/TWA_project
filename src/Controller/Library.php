@@ -13,6 +13,7 @@ class Library extends AbstractController
      */
     public function index(): Response
     {
+        //TODO: implement
         return $this->render('Main/library.blocek.html.twig', [
             'subtitle' => 'Knihovna',
         ]);

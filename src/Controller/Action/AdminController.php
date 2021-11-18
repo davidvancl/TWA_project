@@ -13,6 +13,7 @@ class AdminController extends AbstractController
      */
     public function admin(): Response
     {
+        // TODO: implement
         return $this->render('Main/admin.blocek.html.twig', [
             'subtitle' => 'Admin'
         ]);
