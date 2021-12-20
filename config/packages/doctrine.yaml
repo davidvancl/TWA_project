@@ -1,18 +1,18 @@
 doctrine:
     dbal:
-        dbname:               database
+        dbname:               db_blocek
         host:                 localhost
         port:                 3306
-        user:                 root
-        password:             Aa123456
+        user:                 blocek_manager
+        password:             Bb123456*
         driver:               pdo_mysql
-        url:                  mysql://root:Aa123456@database:3306/symfony_docker?serverVersion=8.0
+        url:                  '%env(DATABASE_URL)%'
         path:                 '%kernel.project_dir%/var/data/data.sqlite'
         memory:               true
         unix_socket:          /tmp/mysql.sock
         charset:              UTF8
         logging:              '%kernel.debug%'
-        server_version:       '5.7'
+        server_version:       'mariadb-10.3.28'
         mapping_types:
             enum: string
     orm:
