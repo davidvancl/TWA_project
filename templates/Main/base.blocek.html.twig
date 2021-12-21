@@ -6,7 +6,8 @@
 {% endblock %}
 
 {% block body %}
-    {{ include('Components/sidebar.blocek.html.twig') }}
+    {% set vars = {'type': 'main_page'} %}
+    {% include 'Components/sidebar.blocek.html.twig' with vars %}
     {{ include('Components/topbar.blocek.html.twig') }}
     <main class="container">
         {% include 'Components/description.blocek.html.twig' %}

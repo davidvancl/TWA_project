@@ -14,42 +14,42 @@
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
-                <a href="{{ path('main_controller') }}" class="nav-link active" aria-current="page">
+                <a href="{{ path('main_controller') }}" class="nav-link {% if vars.type == "main_page" %}active{% else %}text-white{% endif %}">
                     <img src="{{ asset('images/icons/home.png') }}" height="16" width="16" alt="home_icon">
                     Hlavní stránka
                 </a>
             </li>
             {% if app.user %}
                 <li>
-                    <a href="{{ path('app_profile') }}" class="nav-link text-white">
+                    <a href="{{ path('app_profile') }}" class="nav-link {% if vars.type == "profile" %}active{% else %}text-white{% endif %}">
                         <img src="{{ asset('images/icons/user.png') }}" height="16" width="16" alt="user_icon">
                         Profil
                     </a>
                 </li>
             {% endif %}
             <li>
-                <a href="{{ path('app_library') }}" class="nav-link text-white">
+                <a href="{{ path('app_library') }}" class="nav-link {% if vars.type == "library" %}active{% else %}text-white{% endif %}">
                     <img src="{{ asset('images/icons/home.png') }}" height="16" width="16" alt="library_icon">
                     Knihovna
                 </a>
             </li>
             {% if app.user %}
                 <li>
-                    <a href="{{ path('create_event') }}" class="nav-link text-white">
+                    <a href="{{ path('create_event') }}" class="nav-link {% if vars.type == "create_event" %}active{% else %}text-white{% endif %}">
                         <img src="{{ asset('images/icons/writing.png') }}" height="16" width="16" alt="create_icon">
                         Vytvořit událost
                     </a>
                 </li>
             {% endif %}
             <li>
-                <a href="#" class="nav-link text-white">
+                <a href="#" class="nav-link {% if vars.type == "search_event" %}active{% else %}text-white{% endif %}">
                     <img src="{{ asset('images/icons/loupe.png') }}" height="16" width="16" alt="search_icon">
                     Vyhledat událost
                 </a>
             </li>
             {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
                 <li>
-                    <a href="{{ path('app_admin') }}" class="nav-link text-white">
+                    <a href="{{ path('app_admin') }}" class="nav-link {% if vars.type == "admin_app" %}active{% else %}text-white{% endif %}">
                         <img src="{{ asset('images/icons/admin.png') }}" height="16" width="16" alt="admin_icon">
                         Admin page
                     </a>

@@ -42,7 +42,7 @@ function renderEventsFromURL(loadedFilter, url) {
                 let response = JSON.parse(xmlhttp.responseText);
                 let container = document.getElementById('events_container');
                 container.innerHTML = "";
-                if (response){
+                if (typeof response !== 'undefined' && response.length > 0){
                     let html = "<div class=\"row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3\">";
                     response.forEach(event => {
                         html += eventTemplate(event);

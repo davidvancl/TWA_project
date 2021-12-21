@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>A Basic HTML5 Template</title>
+        <meta name="description" content="Error page showing customs errors">
+        <meta name="author" content="David Vancl">
+
+        <link rel="shortcut icon" href="{{ asset('images/icon.ico') }}">
+        <link href="{{ asset('css/error.blocek.css') }}" rel="stylesheet">
+    </head>
+    <body>
+        <div id="app">
+            <div>{{ errorCode }}</div>
+            <div class="txt">{{ errorMessage }}<span class="blink">_</span></div>
+        </div>
+    </body>
+</html>
+
+
+

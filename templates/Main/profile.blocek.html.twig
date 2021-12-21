@@ -13,7 +13,8 @@
 {% endblock %}
 
 {% block body %}
-    {{ include('Components/sidebar.blocek.html.twig') }}
+    {% set vars = {'type': 'profile'} %}
+    {% include 'Components/sidebar.blocek.html.twig' with vars %}
     {{ include('Components/eventFilter.blocek.html.twig') }}
     <header>
         <div class="navbar navbar-dark bg-dark shadow-sm">

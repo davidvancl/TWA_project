@@ -18,8 +18,7 @@ class MainController extends AbstractController
     public function index(Connection $conn): Response
     {
         $queryBuilder = $conn->createQueryBuilder();
-        $articles = [];
-        $queryBuilder
+        $articles = $queryBuilder
             ->select('e.*, u.name, u.surname')
             ->from('event', 'e')
             ->leftJoin('e', 'user', 'u', 'u.id=e.creator_id')

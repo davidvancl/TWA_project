@@ -136,7 +136,7 @@ class EventManagerController extends AbstractController
             ->setParameter("event_id", $id, ParameterType::INTEGER)
             ->execute();
 
-        $this->addFlash('success', 'Vaše událost byla úspěšně smazána.');
+        $this->addFlash('success', 'Vaše událost byla úspěšně smazána. Pokud nebyla událost Vaše nic se nestalo.');
         return $this->redirectToRoute('app_profile');
     }
 
