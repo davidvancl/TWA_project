@@ -1,13 +1,29 @@
 {% extends "base.html.twig" %}
 
 {% block stylesheets %}
-{#    <link href="{{ asset('css/login.blocek.css') }}" rel="stylesheet">#}
     <link href="{{ asset('css/sideBar.blocek.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
     {% set vars = {'type': 'admin_app'} %}
     {% include 'Components/sidebar.blocek.html.twig' with vars %}
+
+    <header>
+        <div class="navbar navbar-dark bg-dark shadow-sm">
+            <div class="container">
+                <a href="{{ path('main_controller') }}" class="navbar-brand d-flex align-items-center">
+                    <img src="{{ asset('images/blocek_icon_white.png') }}" alt="" width="30" height="30" style="margin-right: 10px">
+                    <strong>Bloček</strong>
+                </a>
+                {% if app.user %}
+                    <a href="#" class="navbar-brand d-flex align-items-center">
+                        <strong>{{ app.user.name ~ ' ' ~ app.user.surname }}</strong>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+
+    </header>
     <main class="container">
         <div class="my-3 p-3 bg-body rounded shadow-sm">
             <h6 class="border-bottom pb-2 mb-0">Registovaní uživatelé</h6>
@@ -24,24 +40,27 @@
                             <div class="text-gray-dark"><strong>{{ user.name ~ ' ' ~ user.surname }}</strong><br><span class="d-block">{{ user.email }}</span></div>
                             <div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="role_{{ user.id }}" id="role_user_{{ user.id }}" {% if "ROLE_USER" in user.roles %}checked{% endif %} onclick="upgradeUserRole('/role/{{ user.id }}/ROLE_USER')">
+                                    <input class="form-check-input" type="radio" name="role_{{ user.id }}" id="role_user_{{ user.id }}" {% if "ROLE_USER" in user.roles %}checked{% endif %} onclick="action('/role/{{ user.id }}/ROLE_USER')">
                                     <label class="form-check-label" for="role_user_{{ user.id }}">
                                         ROLE USER
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="role_{{ user.id }}" id="role_admin_{{ user.id }}" {% if "ROLE_ADMIN" in user.roles %}checked{% endif %} onclick="upgradeUserRole('/role/{{ user.id }}/ROLE_ADMIN')">
+                                    <input class="form-check-input" type="radio" name="role_{{ user.id }}" id="role_admin_{{ user.id }}" {% if "ROLE_ADMIN" in user.roles %}checked{% endif %} onclick="action('/role/{{ user.id }}/ROLE_ADMIN')">
                                     <label class="form-check-label" for="role_admin_{{ user.id }}">
                                         ROLE_ADMIN
                                     </label>
                                 </div>
+                                <button type="button" class="btn btn-sm btn-danger" onclick="confirmAction('/user/delete/{{ user.id }}')">Smazat uživatele</button>
                             </div>
                         </div>
                     </div>
                 </div>
             {% endfor %}
             <small class="d-block text-end mt-3">
-                <a href="#">All suggestions</a>
+                {% for page in pages %}
+                    <a href="/admin/{{ page - 1 }}">{{ page }}</a>
+                {% endfor %}
             </small>
         </div>
     </main>
