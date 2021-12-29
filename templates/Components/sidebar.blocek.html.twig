@@ -49,12 +49,6 @@
                     </a>
                 </li>
             {% endif %}
-            <li>
-                <a href="#" class="nav-link {% if vars.type == "search_event" %}active{% else %}text-white{% endif %}">
-                    <img src="{{ asset('images/icons/loupe.png') }}" height="16" width="16" alt="search_icon">
-                    Vyhledat událost
-                </a>
-            </li>
             {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
                 <li>
                     <a href="{{ path('app_admin') }}" class="nav-link {% if vars.type == "admin_app" %}active{% else %}text-white{% endif %}">
@@ -71,17 +65,11 @@
                         <strong>Nápověda</strong>
                     </p>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="helper">
-                        <li><a class="dropdown-item" href="#">Vytvoření</a></li>
-                        <li><a class="dropdown-item" href="#">Čtení</a></li>
-                        <li><a class="dropdown-item" href="#">Úprava</a></li>
-                        <li><a class="dropdown-item" href="#">Smazání</a></li>
-                        <li><a class="dropdown-item" href="#">Řazení událostí</a></li>
-                        <li><a class="dropdown-item" href="#">Detail události</a></li>
-                        <li><a class="dropdown-item" href="#">Barvy</a></li>
-                        <li><a class="dropdown-item" href="#">Upozornění</a></li>
-                        <li><a class="dropdown-item" href="#">Časové zobrazení</a></li>
-                        <li><a class="dropdown-item" href="#">Účet</a></li>
-                        <li><a class="dropdown-item" href="#">Veřejné události</a></li>
+                        <li><a class="dropdown-item" href="/help/main_page">Hlavní stránka</a></li>
+                        <li><a class="dropdown-item" href="/help/events">Události/poznámky</a></li>
+                        <li><a class="dropdown-item" href="/help/library">Knihovna</a></li>
+                        <li><a class="dropdown-item" href="/help/admin_settings">Nastavení pro adminy</a></li>
+                        <li><a class="dropdown-item" href="/help/api">API</a></li>
                     </ul>
                 </p>
             </li>
