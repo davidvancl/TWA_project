@@ -110,7 +110,7 @@ function eventTemplate(event) {
         eventElement += ">Dokončit" +
         "</button>" +
         "<button onclick=\"editEvent('/event/edit/"+event.id+"')\" type=\"button\" class=\"btn btn-sm btn-outline-secondary\">Upravit</button>" +
-        "<button onclick=\"askToDelete('/event/edit/"+event.id+"')\" type=\"button\"" +
+        "<button onclick=\"askToDelete('/event/delete/"+event.id+"')\" type=\"button\"" +
         " class=\"btn btn-sm btn-outline-secondary btn-outline-danger\">Smazat" +
         "</button>" +
         "</div>" +
