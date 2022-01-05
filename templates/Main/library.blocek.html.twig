@@ -1,1 +1,71 @@
-Bude implementováno sledování veřejných příspěvků
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{ asset('css/sideBar.blocek.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    {% set vars = {'type': 'library'} %}
+    {% include 'Components/sidebar.blocek.html.twig' with vars %}
+    <main>
+        <section class="py-5 text-center container">
+            <div class="row py-lg-2">
+                <div class="col-lg-6 col-md-8 mx-auto">
+                    <h1 class="fw-light display-5 fw-bold">Knihovna</h1>
+                    <p class="lead text-muted">Stránka přidaných, nesplněných, veřejných událostí / požadavků / ůkolů.
+                    <p>
+                        {% if app.user %}
+                            <a href="{{ path('create_event') }}" class="btn btn-secondary my-2">Přidat událost</a>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </section>
+        <div class="album py-5 bg-light">
+            <div id="events_container" class="container">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                    {% for item in list %}
+                        <div class="col">
+                            <div class="card shadow-sm">
+                                {% if item.section == "main_page" %}
+                                    <img style="position: absolute; top: 30px; left: 10px" src="{{ asset('images/page.png') }}" height="10" width="10" alt="">
+                                {% endif %}
+                                <svg class="bd-placeholder-img card-img-top" width="100%" height="125"
+                                     preserveAspectRatio="xMidYMid slice" focusable="false"><title>{{ item.title }}</title>
+                                    <rect width="100%" height="100%" fill="#55595c"></rect>
+                                    <text x="50%" y="50%" fill="#eceeef" dy=".3em">{{ item.title }}</text>
+                                    <text x="50%" y="80%" fill="#eceeef" dy=".3em" style="font-size: 0.825rem;">Vytovřeno:
+                                        {{ item.date_created }}
+                                    </text>
+                                </svg>
+                                <div class="card-body"><p class="card-text">{{ item.body }}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="text-muted" style="float: right">{{ item.name ~ ' ' ~ item.surname }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="text-muted py-5">
+        <div class="container">
+            <p class="float-end mb-1">
+                {% for page in pages %}
+                    {% if actual_page == page %}
+                        <b><a href="/library/{{ page }}">{{ page }}</a></b>
+                    {% else %}
+                        <a href="/library/{{ page }}">{{ page }}</a>
+                    {% endif %}
+                {% endfor %}
+            </p>
+        </div>
+    </footer>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/profile.blocek.js') }}"></script>
+    <script src="{{ asset('js/eventFilter.blocek.js') }}"></script>
+{% endblock %}

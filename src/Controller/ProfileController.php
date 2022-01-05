@@ -14,7 +14,6 @@ class ProfileController extends AbstractController
     /**
      * @Route("/profile", name="app_profile")
      * @return Response
-     * @throws \Doctrine\DBAL\Exception
      */
     public function index(): Response
     {
