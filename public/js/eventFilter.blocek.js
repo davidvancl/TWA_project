@@ -83,7 +83,7 @@ function eventTemplate(event) {
         }
         eventElement += "<svg class=\"bd-placeholder-img card-img-top\" width=\"100%\" height=\"125\" preserveAspectRatio=\"xMidYMid slice\"" +
         " focusable=\"false\">" +
-        "<title>" + event.title + "</title>" +
+        "<title>" + encodeHTML(event.title) + "</title>" +
         "<rect width=\"100%\" height=\"100%\" fill=\"";
         if (event.status === "completed") {
             eventElement += "#198754";
@@ -94,12 +94,12 @@ function eventTemplate(event) {
         }
         eventElement +=
         "\"></rect>" +
-        "<text x=\"50%\" y=\"50%\" fill=\"#eceeef\" dy=\".3em\">" + event.title + "</text>" +
+        "<text x=\"50%\" y=\"50%\" fill=\"#eceeef\" dy=\".3em\">" + encodeHTML(event.title) + "</text>" +
         "<text x=\"50%\" y=\"80%\" fill=\"#eceeef\" dy=\".3em\" style=\"font-size: 0.825rem;\">" +
-        "Vytovřeno: " + event.date_created + "</text>" +
+        "Vytovřeno: " +  encodeHTML(event.date_created) + "</text>" +
         "</svg>" +
         "<div class=\"card-body\">" +
-        "<p class=\"card-text\">" + event.body + "</p>" +
+        "<p class=\"card-text\">" + encodeHTML(event.body) + "</p>" +
         "<div class=\"d-flex justify-content-between align-items-center\">" +
         "<div class=\"btn-group\">" +
         "<button onclick=\"completeEvent('/event/finish/" + event.id + "')\" type=\"button\"" +
@@ -114,10 +114,14 @@ function eventTemplate(event) {
         " class=\"btn btn-sm btn-outline-secondary btn-outline-danger\">Smazat" +
         "</button>" +
         "</div>" +
-        "<small class=\"text-muted\">" + event.date_to + "</small>" +
+        "<small class=\"text-muted\">" + encodeHTML(event.date_to) + "</small>" +
         "</div>" +
         "</div>" +
         "</div>" +
         "</div>";
     return eventElement;
+}
+
+function encodeHTML(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 }
